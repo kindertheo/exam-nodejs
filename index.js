@@ -39,13 +39,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/id/:id', (req, res) => {
-  collection.find({'_id': id}.toArray( (error, result) => 
+  let id = req.params.id
+  collection.findOne({'_id': new require('mongodb').ObjectID(id)}).then( (result, error) => 
   {
     if(error){
       return res.status(404).send(error)
     }
     return res.send(result)
-  }))
+  })
 })
 
 
@@ -97,12 +98,13 @@ app.post('/add/country', (req, res) => {
   })
 });
 
-/* app.get('/delete/:id', (req, res) => {
-  console.log(req.params.id)
-  res.redirect(`/delete/${req.params.id}`)
-}) */
+
+app.get('/update/:id', (req, res) => {
+  res.sendFile(`${__dirname}/static/html/update_form.html`)
+})
 
 app.delete('/delete/:id', (req, res) => {
-  console.log(req.params.id)
-  //res.redirect('/')
+  //console.log(req.params.id)
+  //res.redirect('back')
+  return res.send("ok c'est tout bon")
 })
