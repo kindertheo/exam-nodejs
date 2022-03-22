@@ -98,7 +98,7 @@ app.post('/add/country', (req, res) => {
 });
 
 
-app.get('/update/:id', (req, res) => {
+app.get('/update', (req, res) => {
   res.sendFile(`${__dirname}/static/html/update_form.html`)
 })
 

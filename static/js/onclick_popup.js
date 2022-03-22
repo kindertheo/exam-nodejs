@@ -39,7 +39,7 @@ export function popup(){
     
     btn_modify.addEventListener('click', () => {
         console.log('modify')
-        window.location.href = `/update/${data_id}`
+        window.location.href = `/update?id=${data_id}`
     })
 
     //A chaque clic sur le bouton delete, fait une requête delete vers la route /delete/id_du_document
