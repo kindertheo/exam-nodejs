@@ -102,6 +102,23 @@ app.get('/update', (req, res) => {
   res.sendFile(`${__dirname}/static/html/update_form.html`)
 })
 
+app.put('/update/:id', (req, res) => {
+  let data = req.body
+  console.log(data)
+  let query = {'_id':  new require('mongodb').ObjectID(req.params.id)}
+  collection.findOneAndUpdate(
+    query, 
+    { $set : data },
+    { new: true, upsert: true, returnOriginal: false }, 
+  (error, result) => {
+    if (error){
+      return res.status(500).send(error)
+    }
+      return res.status(200).send()
+  })
+})
+
+
 app.delete('/delete/:id', (req, res) => {
   //console.log(req.params.id)
   //res.redirect('back')

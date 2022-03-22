@@ -1,6 +1,6 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-let id = urlParams.get('id')
+const id = urlParams.get('id')
 
 if (id === null || id.length == 0 || id == 'null'){
     false; //TODO à gérer
@@ -10,12 +10,12 @@ fetch(`/id/${id}`).then(res => { return res.json() })
 .then(response => {
     console.log(response)
     console.log("hey")
-    form_dom = document.querySelector("form")
+    let form_dom = document.querySelector("form")
       
-    new_form = document.createElement("form")
-    new_form.action = "#"
+    let new_form = document.createElement("form")
+//    new_form.action = "#"
     new_form.classList.add("form-group")
-    new_form.method = "#"
+//    new_form.method = "#"
     Object.keys(response).forEach(element => {
         //N'affiche pas la colnne _id
 /*         if(element === '_id'){
@@ -37,9 +37,33 @@ fetch(`/id/${id}`).then(res => { return res.json() })
         new_form.appendChild(input)
     });
 
+    save_btn = document.createElement("button")
+    save_btn.id = "update"
+    save_btn.classList.add("btn")
+    save_btn.classList.add("btn-success")
+    save_btn.innerHTML = "Modifier"
+    new_form.appendChild(save_btn)
+
     form_dom.replaceWith(new_form)
-    console.log("hey")
 
-    
+    console.log(...new FormData(new_form))
+
+    save_btn.addEventListener('click', function(event) {
+        event.preventDefault();
+        console.log(new FormData(new_form))
+        var options = { 
+            method: 'PUT',
+            body : new FormData(new_form),
+            contentType: false,
+            processData: false,
+        }
+        fetch(`/update/${id}`, options)
+        .then(res => res.json)
+        .then(
+/*             window.location.href = `/id/${id}`
+ */        )
+        .catch(
+            console.log(`Erreur lors de la modification de ${id}`)
+        )
+    })
 })
-
