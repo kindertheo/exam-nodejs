@@ -15,6 +15,7 @@ fetch(`/country/year/${date}`)
     .then(res => { return res.json() })
     .then(response => {
         const datas = response
+        console.log(datas)
         //Ajoute les clés des objets comme données dans le titre du tableau
         let tr_keys = []
         //Tri les données

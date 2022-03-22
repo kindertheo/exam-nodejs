@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var MongoClient = require('mongodb').MongoClient;
-const CONNECTION_URL = "mongodb://localhost:27017";
+const CONNECTION_URL = "mongodb://127.0.0.1:27017";
 const DATABASE_NAME = 'exam'
 
 app.listen(3000, () => { 
@@ -85,14 +85,13 @@ app.get('/add/form', (req, res) => {
 
 app.post('/add/country', (req, res) => {
 
-  let data = {
-    name : req.body.name
-  }
+  let data =req.body
+  console.log(data)
   collection.insertOne(data, (error, result) => {
     if (error){
       return res.status(418).send(error)
     }
-
+    console.log(result)
     res.redirect("/")
 
   })
