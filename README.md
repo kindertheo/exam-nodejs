@@ -24,8 +24,8 @@ Pour restorer la base :
 mongorestore mongodump/exam/country.bson
 ```
 
-![alt text](https://github.com/kindertheo/exam-nodejs/blob/master/img/homepage.png?raw=true)
+![alt text](https://github.com/kindertheo/exam-nodejs/blob/master/img/homepage.PNG?raw=true)
 
 Pour modifier/supprimer, cliquez sur la ligne que vous souhaitez changer
 
-![alt text](https://github.com/kindertheo/exam-nodejs/blob/master/img/onclick.png?raw=true)
+![alt text](https://github.com/kindertheo/exam-nodejs/blob/master/img/onclick.PNG?raw=true)
