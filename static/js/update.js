@@ -6,6 +6,7 @@ if (id === null || id.length == 0 || id == 'null'){
     false; //TODO à gérer
 }
 
+
 fetch(`/id/${id}`).then(res => { return res.json() })
 .then(response => {
     console.log(response)
@@ -50,20 +51,34 @@ fetch(`/id/${id}`).then(res => { return res.json() })
 
     save_btn.addEventListener('click', function(event) {
         event.preventDefault();
-        console.log(new FormData(new_form))
+
+        let fd = new FormData(new_form);
+        let data = {};
+        for (let [key, prop] of fd) {
+          data[key] = prop;
+        }
+        delete data._id
+        data = JSON.stringify(data);
+        console.log(data);
+
         var options = { 
             method: 'PUT',
-            body : new FormData(new_form),
+            body : data,
+            headers: {'Content-Type': 'application/json'},
             contentType: false,
             processData: false,
+            redirect: "follow"
         }
         fetch(`/update/${id}`, options)
-        .then(res => res.json)
-        .then(
-/*             window.location.href = `/id/${id}`
- */        )
+        .then(res => {
+          console.log(res)
+          if(res.status == 200){
+            window.location.href = `/show?id=${id}`
+          }
+        })
+        
         .catch(
-            console.log(`Erreur lors de la modification de ${id}`)
+          console.log(`Erreur lors de la modification de ${id}`)
         )
     })
 })

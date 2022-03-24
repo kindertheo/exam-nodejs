@@ -49,6 +49,17 @@ app.get('/id/:id', (req, res) => {
   })
 })
 
+app.get('/show', (req, res) => {
+  let id = req.params.id
+  collection.findOne({'_id': new require('mongodb').ObjectID(id)}).then( (result, error) => 
+  {
+    if(error){
+      return res.status(404).send(error)
+    }
+    return res.sendFile(`${__dirname}/static/html/country.html`)
+  })
+})
+
 
 app.get('/country/year/:year', (req, res) => {
   let year = req.params.year
@@ -109,18 +120,45 @@ app.put('/update/:id', (req, res) => {
   collection.findOneAndUpdate(
     query, 
     { $set : data },
-    { new: true, upsert: true, returnOriginal: false }, 
-  (error, result) => {
-    if (error){
-      return res.status(500).send(error)
+  (err, response) => {
+    if(err){
+      console.log(err);
+      return res.status(500).json({error: req.params.id + ' not found - status 500'})
+  }
+  else{
+      if(response == null) {
+          return res.status(404).json({error: req.params.id + ' not found - status 404'})
+      }
+      else {
+          console.log(response);
+          console.log("updated");
+          res.status(200).json({updated_id:  req.params.id});
+          //res.redirect(`/show?id=${req.params.id}`)
+      }
     }
-      return res.status(200).send()
   })
 })
 
 
 app.delete('/delete/:id', (req, res) => {
-  //console.log(req.params.id)
-  //res.redirect('back')
-  return res.send("ok c'est tout bon")
+
+  console.log("id", req.params.id);
+  let query = {'_id':  new require('mongodb').ObjectID(req.params.id)}
+  collection.deleteOne(query, function(err, response){
+      if(err){
+          console.log(err);
+          return res.status(500).json({error: req.params.id + ' not found - status 500'})
+      }
+      else{
+          if(response == null) {
+              return res.status(404).json({error: req.params.id + ' not found - status 404'})
+          }
+          else {
+              console.log(response);
+              console.log("deleted");
+              res.status(200).json({deleted_id:  req.params.id});
+          }
+      }
+  });
+
 })
